@@ -1,0 +1,215 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test Application",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/v1/author": {
+            "post": {
+                "tags": [
+                    "author"
+                ],
+                "summary": "Create new author",
+                "description": "",
+                "operationId": "store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "description": "name author",
+                                        "type": "string"
+                                    },
+                                    "about": {
+                                        "description": "about author",
+                                        "type": "string"
+                                    },
+                                    "birth_date": {
+                                        "description": "date birth author",
+                                        "type": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success create element"
+                    }
+                }
+            }
+        },
+        "/api/v1/book": {
+            "get": {
+                "tags": [
+                    "book"
+                ],
+                "summary": "Get a list of books",
+                "description": "",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "book"
+                ],
+                "summary": "Create new Book",
+                "description": "",
+                "operationId": "store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "name book",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "about book",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Validate error"
+                    },
+                    "200": {
+                        "description": "Success create element"
+                    }
+                }
+            }
+        },
+        "/api/v1/book/{id}": {
+            "get": {
+                "tags": [
+                    "book"
+                ],
+                "summary": "Get one book with all authors",
+                "description": "",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Book id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "book"
+                ],
+                "summary": "Updates a book in the store with form data",
+                "description": "",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of book that needs to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Updated name of the book",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Updated description of the book",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Error in server"
+                    },
+                    "400": {
+                        "description": "Validate error"
+                    }
+                }
+            }
+        },
+        "/api/v1/book/getBooksByAuthorId/{id}": {
+            "get": {
+                "tags": [
+                    "book"
+                ],
+                "summary": "Get a list of books by a specific author",
+                "description": "",
+                "operationId": "getBooksByAuthorId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Author id",
+                        "required": true,
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

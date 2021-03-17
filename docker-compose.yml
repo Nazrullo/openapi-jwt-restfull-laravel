@@ -1,0 +1,88 @@
+version: '3.2'
+services:
+
+  app:
+    image: ${REGISTRY_URL}/${CONTAINER_NAME}-app:${APP_VERSION}.${BUILD_NUMBER}
+    container_name: ${CONTAINER_NAME}-app
+    build:
+      context: .
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        NODE_VERSION: ${NODE_VERSION}
+        NPM_VERSION: ${NPM_VERSION}
+        HTTP_PROXY:  ${HTTP_PROXY}
+        APP_ENV: ${APP_ENV}
+    volumes:
+      - './:/app'
+    env_file: .env
+    expose:
+      - 9005
+      - 9000
+    ports:
+      - ${SUPERVIZORD_PORT}:9001
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  nginx:
+    image: ${REGISTRY_URL}/${CONTAINER_NAME}-nginx:${APP_VERSION}.${BUILD_NUMBER}
+    container_name: ${CONTAINER_NAME}-nginx
+    links:
+      - app
+    depends_on:
+      - app
+    volumes:
+      - './:/app'
+    build:
+      context: ./docker/nginx
+#    restart: always
+    ports:
+      - ${NGINX_FRONTEND_PORT}:80
+    command: sh -c "envsubst '$$NGINX_FRONTEND_HOST $$NGINX_FRONTEND_PORT $$NGINX_FRONTEND_DIR $$CONTAINER_NAME' < /etc/nginx/conf.d/nginx.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    deploy:
+      mode: replicated
+      replicas: 1
+    env_file: .env
+  mysql:
+    container_name: ${CONTAINER_NAME}-mysql
+    build: ./docker/mysql
+    env_file: .env
+    volumes:
+      - ./development/server/mysql:/var/lib/mysql
+      - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
+    ports:
+      - ${MYSQL_PORT}:3306
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.8
+    container_name: ${CONTAINER_NAME}-phpmyadmin
+    env_file: .env
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - 5003:80
+#  postgres:
+#    image: ${REGISTRY_URL}/${CONTAINER_NAME}-postgres:${APP_VERSION}.${BUILD_NUMBER}
+#    container_name: ${CONTAINER_NAME}-postgres
+#    build: ./docker/postgres
+#    restart: always
+#    ports:
+#      - ${POSTGRES_PORT}:5432
+#    volumes:
+#      - './data/postgres:/var/lib/postgresql/data'
+#      - './dev/postgres:/app-dev-data/postgres'
+#    deploy:
+#      mode: replicated
+#      replicas: 1
+#    env_file: .env
+
+  mailcatcher:
+    image: ${REGISTRY_URL}/${CONTAINER_NAME}-mailcatcher:${APP_VERSION}.${BUILD_NUMBER}
+    container_name: ${CONTAINER_NAME}-mailcatcher
+    build: ./docker/mailcatcher
+    ports:
+      - ${MAILCATCHER_PORT}:1080
+    deploy:
+      mode: replicated
+      replicas: 1
+    env_file: .env
