@@ -48,9 +48,8 @@ class BookControllerTest extends TestCase
                     'message',
                     'data' => [
                         'id',
-                        'full_name',
-                        'about',
-                        'birth_date',
+                        'name',
+                        'description',
                     ]
                 ]
             );
@@ -59,6 +58,7 @@ class BookControllerTest extends TestCase
 
     public function testUpdate()
     {
+        $this->withHeader('Accept','application/x-www-form-urlencoded');
         $book = Books::first('id');
         $payload = [
             'name' => $this->faker->name,
@@ -73,10 +73,18 @@ class BookControllerTest extends TestCase
                         'id',
                         'name',
                         'description',
+                        'authors' => [
+                            '*' => [
+                                'id',
+                                'full_name',
+                                'about',
+                                'birth_date'
+                            ]
+                        ]
                     ]
                 ]
             );
-        $this->assertDatabaseHas('users', $payload);
+        $this->assertDatabaseHas('books', $payload);
     }
 
     public function testIndex()

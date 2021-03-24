@@ -36,7 +36,7 @@ class AuthorController extends BaseApiController
      *   @OA\RequestBody(
      *       required=true,
      *       @OA\MediaType(
-     *           mediaType="application/x-www-form-urlencoded",
+     *           mediaType="application/json",
      *           @OA\Schema(
      *               type="object",
      *               @OA\Property(
@@ -61,7 +61,7 @@ class AuthorController extends BaseApiController
      * )
      * @param CreateAuthorRequest $request
      */
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(CreateAuthorRequest $request): \Illuminate\Http\JsonResponse
     {
         $model = $this->authorWriteRepository
             ->create(new CreateAuthorDTO(

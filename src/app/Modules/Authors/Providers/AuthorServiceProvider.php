@@ -66,6 +66,7 @@ class AuthorServiceProvider extends ServiceProvider
     {
         Route::
         prefix($this->apiPrefix)
+            ->middleware('jwt.verify')
             ->namespace($this->namespace)
             ->group(__DIR__ . '/../routes/route.php');
     }

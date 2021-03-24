@@ -11,6 +11,8 @@ use App\Modules\Books\DTO\CreateBookDTO;
 use App\Modules\Books\DTO\UpdateBookDTO;
 use App\Modules\Books\Repository\BookReadRepositoryInterface;
 use App\Modules\Books\Repository\BookWriteRepositoryInterface;
+use App\Modules\Books\Requests\CreateBookRequest;
+use App\Modules\Books\Requests\UpdateBookRequest;
 use App\Modules\Books\Resources\BookResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -121,7 +123,7 @@ class BookController extends BaseApiController
      *   @OA\RequestBody(
      *       required=true,
      *       @OA\MediaType(
-     *           mediaType="application/x-www-form-urlencoded",
+     *           mediaType="application/json",
      *           @OA\Schema(
      *               type="object",
      *               @OA\Property(
@@ -140,10 +142,10 @@ class BookController extends BaseApiController
      *   @OA\Response(response="400",description="Validate error"),
      *   @OA\Response(response="200",description="Success create element"),
      * ) *
-     * @param Request $request
+     * @param CreateBookRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(CreateBookRequest $request): \Illuminate\Http\JsonResponse
     {
         $model = $this->writeRepository
             ->create(new CreateBookDTO(
@@ -152,7 +154,7 @@ class BookController extends BaseApiController
         if (!$model) {
             return $this->responseWithMessage(500);
         }
-        return $this->responseWithData(new AuthorResource($model), Response::HTTP_CREATED);
+        return $this->responseWithData(new BookResource($model), Response::HTTP_CREATED);
 
     }
 
@@ -196,10 +198,10 @@ class BookController extends BaseApiController
      *   @OA\Response(response="400",description="Validate error"),
      * )
      * @param $id
-     * @param Request $request
+     * @param UpdateBookRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update($id, Request $request): \Illuminate\Http\JsonResponse
+    public function update($id, UpdateBookRequest $request): \Illuminate\Http\JsonResponse
     {
         $model = $this->writeRepository
             ->update($id, new UpdateBookDTO(
@@ -208,7 +210,7 @@ class BookController extends BaseApiController
         if (!$model) {
             return $this->responseWithMessage(500);
         }
-        return $this->responseWithData(new AuthorResource($model), Response::HTTP_ACCEPTED);
+        return $this->responseWithData(new BookResource($model), Response::HTTP_ACCEPTED);
 
     }
 

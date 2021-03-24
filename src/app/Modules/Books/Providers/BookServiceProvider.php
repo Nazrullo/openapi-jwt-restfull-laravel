@@ -70,6 +70,7 @@ class BookServiceProvider extends ServiceProvider
         Route::
         prefix($this->apiPrefix)
             ->namespace($this->namespace)
+            ->middleware('jwt.verify')
             ->group(__DIR__ . '/../routes/route.php');
     }
 

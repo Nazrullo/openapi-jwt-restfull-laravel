@@ -23,8 +23,10 @@ class BookWriteRepository implements BookWriteRepositoryInterface
         return $this->model->create(get_object_vars($DTO));
     }
 
-    public function update($id,UpdateBookDTO $DTO)
+    public function update($id, UpdateBookDTO $DTO)
     {
-        return $this->model->where('id','=',$id)->update(get_object_vars($DTO));
+        $model = $this->model->where('id', '=', $id)->first();
+        $model->update(get_object_vars($DTO));
+        return $model;
     }
 }
