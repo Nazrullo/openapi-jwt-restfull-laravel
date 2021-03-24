@@ -32,6 +32,9 @@ class BookController extends BaseApiController
     /**
      * @OA\Get(path="/api/v1/book",
      *   tags={"book"},
+     *   security={
+     *     {"bearerAuth": {}}
+     *   },
      *   summary="Get a list of books",
      *   description="",
      *   operationId="index",
@@ -50,6 +53,9 @@ class BookController extends BaseApiController
     /**
      * @OA\Get(path="/api/v1/book/{id}",
      *   tags={"book"},
+     *   security={
+     *     {"bearerAuth": {}}
+     *   },
      *   summary="Get one book with all authors",
      *   description="",
      *   operationId="show",
@@ -83,6 +89,9 @@ class BookController extends BaseApiController
     /**
      * @OA\Get(path="/api/v1/book/getBooksByAuthorId/{id}",
      *   tags={"book"},
+     *   security={
+     *     {"bearerAuth": {}}
+     *   },
      *   summary="Get a list of books by a specific author",
      *   description="",
      *   operationId="getBooksByAuthorId",
@@ -117,6 +126,9 @@ class BookController extends BaseApiController
      * @OA\Post(
      *   path="/api/v1/book",
      *   tags={"book"},
+     *   security={
+     *     {"bearerAuth": {}}
+     *   },
      *   summary="Create new Book",
      *   description="",
      *   operationId="store",
@@ -162,6 +174,9 @@ class BookController extends BaseApiController
      * @OA\Put(
      *   path="/api/v1/book/{id}",
      *   tags={"book"},
+     *   security={
+     *     {"bearerAuth": {}}
+     *   },
      *   summary="Updates a book in the store with form data",
      *   description="",
      *   operationId="update",

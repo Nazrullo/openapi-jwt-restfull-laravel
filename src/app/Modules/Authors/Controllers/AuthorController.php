@@ -30,6 +30,9 @@ class AuthorController extends BaseApiController
      * @OA\Post(
      *   path="/api/v1/author",
      *   tags={"author"},
+     *   security={
+     *     {"bearerAuth": {}}
+     *   },
      *   summary="Create new author",
      *   description="",
      *   operationId="store",

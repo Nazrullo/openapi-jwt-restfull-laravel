@@ -115,7 +115,12 @@
                     "200": {
                         "description": "Success create element"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/book": {
@@ -130,7 +135,12 @@
                     "200": {
                         "description": "success"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -166,7 +176,12 @@
                     "200": {
                         "description": "Success create element"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/book/{id}": {
@@ -192,7 +207,12 @@
                     "200": {
                         "description": "successful operation"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -240,7 +260,12 @@
                     "400": {
                         "description": "Validate error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/book/getBooksByAuthorId/{id}": {
@@ -267,20 +292,24 @@
                     "200": {
                         "description": "successful operation"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
     "components": {
         "securitySchemes": {
-            "token": {
-                "type": "apiKey",
+            "bearerAuth": {
+                "type": "http",
                 "name": "Authorization",
-                "in": "header"
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
-    },
-    "security": [
-        []
-    ]
+    }
 }

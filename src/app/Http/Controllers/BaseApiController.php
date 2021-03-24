@@ -21,13 +21,15 @@ class BaseApiController extends Controller
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests,MessageCodes;
     /**
-     * @OA\SecurityScheme (
-     * securityScheme = "token",
-     * type = "apiKey",
-     * name = "Authorization",
-     * in = "header"
-     *)
-     */
+     * @OA\SecurityScheme(
+     *   securityScheme="bearerAuth",
+     *   in="header",
+     *   name="Authorization",
+     *   type="http",
+     *   scheme="bearer",
+     *   bearerFormat="JWT",
+     * ),
+     **/
     /**
      * JsonResponse с данными
      *
