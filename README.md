@@ -13,3 +13,6 @@ php artisan db:seed
 php artisan jwt:secret
 
 php artisan test
+
+login:admin@mail.com
+password:admin
